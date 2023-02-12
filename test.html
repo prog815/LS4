@@ -13,7 +13,21 @@
     привет
     <script>
         $(function(){
-            $('#my_div').html("<a href='temp/1.pdf' target=_blank>link</a>")
+            $('#my_div').html("<a href='temp/1.pdf' target=_blank>link</a>") ;
+            $.ajax({
+                        headers: { "Accept": "application/json"},
+                        type: 'GET',
+                        url: 'http://localhost/url',
+                        crossDomain: true,
+                        beforeSend: function(xhr){
+                            xhr.withCredentials = true;
+                    },
+                        success: function(data, textStatus, request){
+                            console.log(data);
+                        }
+            });
+            
+            
         })
     </script>
     <div id="my_div"></div>
