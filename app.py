@@ -8,13 +8,8 @@ app = Flask(__name__, static_url_path='/static')
 @app.route('/',methods=["GET"])
 @app.route('/index',methods=["GET"])
 def index():
-    
-    return "<html><body><a href='file://C:/Users/prog/YandexDisk/LS4/temp/1.pdf' target=_blank>ссылка</a></body></html>" ;
+    return "<html><body><iframe src='http://C:/Users/prog/YandexDisk/LS4/file.html'>iframe не работает</iframe></body></html>" ;
 
-
-@app.route('/url',methods=["GET"])
-def url():
-    return jsonify({'url':"temp/1.pdf"})
 
 
 if __name__ == '__main__':
