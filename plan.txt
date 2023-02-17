@@ -40,7 +40,11 @@
 Удалось только к вечеру найти решение по состыковке mongodb и python.
 Образ от mongodb. Все остальное прикручиваем уже дальше.
 
+18.02.2023 
 
+настроили правильный запуск базы
+подключились к базе данных извне
+можно делать базу
 
 ---------------------------------
 
@@ -76,7 +80,7 @@
 
 Команды для Docker:
 docker build --pull --rm -f "Dockerfile" -t ls4:latest .
-docker run -d -p80:5000 --name ls4 ls4
+docker run -d -p80:5000 -p27017:27017 --name ls4 ls4
 docker container ls
 docker rm -f ls4
 docker exec -it ls4 /bin/sh

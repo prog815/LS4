@@ -1,11 +1,3 @@
-# FROM python:3.8-alpine
-
-# WORKDIR /app
-
-# COPY . /app
-
-# --------------------------------------------------------
-
 FROM mongo:latest
 
 # install Python 3
@@ -15,7 +7,7 @@ RUN apt-get -y install python3-dev
 RUN apt-get install -y python3-pip
 RUN pip3 install pymongo
 
-# EXPOSE 27017
+
 # Set the working directory
 WORKDIR /app
 
@@ -34,30 +26,14 @@ RUN mv jquery.min.js ./static/
 RUN export PATH=$PATH:/usr/bin/python3
 # RUN which python3
 
-CMD mongod & python3 ./app.py
+# Create an administrative user and enable authentication
+EXPOSE 27017
 
-# CMD python3 ./app.py
+# Create a root user with a password
+RUN mongod --fork --logpath /var/log/mongodb.log && \
+    sleep 10 && \
+    echo 'use admin; db.createUser({user: "root", pwd: "password", roles: ["root"]})' | mongosh && \
+    mongod --dbpath /data/db --shutdown
 
-# --------------------------------------------------------
-
-# FROM python:3.8
-
-# RUN apt-get update && apt-get install -y gnupg
-
-# RUN apt-get install -y wget
-
-# RUN wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | apt-key add -
-
-# RUN echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main" | tee /etc/apt/sources.list.d/mongodb-org-4.4.list
-
-# RUN apt-get update
-
-# RUN apt-get install -y mongodb-org
-
-# WORKDIR /app
-
-# COPY . /app
-
-# CMD ["mongod"]
-
+CMD mongod --bind_ip_all & python3 ./app.py
 
