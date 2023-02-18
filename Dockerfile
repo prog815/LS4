@@ -33,6 +33,7 @@ EXPOSE 27017
 RUN mongod --fork --logpath /var/log/mongodb.log && \
     sleep 10 && \
     echo 'use admin; db.createUser({user: "root", pwd: "password", roles: ["root"]})' | mongosh && \
+    python3 init_base.py && \
     mongod --dbpath /data/db --shutdown
 
 CMD mongod --bind_ip_all & python3 ./app.py
