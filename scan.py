@@ -3,6 +3,7 @@ from datetime import datetime,timedelta
 
 import os
 from pymongo import MongoClient
+import time
 
 
 # устанавливаем соединение с базой данных MongoDB
@@ -19,7 +20,7 @@ days_ago = datetime.now() - timedelta(days=3)
 filter = {"file": 0, "last_scaned": {"$lt": days_ago}}
 
 # устанавливаем ограничение на количество результатов - не более 10
-limit = 2
+limit = 30
 
 # создаем проекцию для вывода только полей _id и path
 projection = {"_id": 1, "path": 1}
@@ -29,6 +30,10 @@ results = collection.find(filter,projection).limit(limit)
 
 # выводим результаты
 for result in results:
+    # прерываем, если больше минуты работаем
+    if lib.run_time() > 60:
+        break
+    
     print('-'*40)
     print(result)
     path = result['path']
@@ -68,4 +73,6 @@ for result in results:
         # неудачное сканирование папки
         result = collection.update_one({"_id": _id}, {"$set": {"last_scaned": lib.date_plus_random_delta(datetime.now())}})
         print('неудачно : ' + path + " with result: " + str(result.modified_count))
+    
+    time.sleep(1)
     

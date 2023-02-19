@@ -1,3 +1,25 @@
+import time
+
+# -------------------------------------------------------------
+
+def time_now():
+    '''
+    текущее время в секундах
+    '''
+    return int(time.time())
+
+# -------------------------------------------------------------
+
+start_time = time_now()
+
+def run_time():
+    '''
+    время в секундах от запуска программы
+    '''
+    return time_now() - start_time
+
+# -------------------------------------------------------------
+
 def date_plus_random_delta(d):
     import random
     import datetime
@@ -22,3 +44,4 @@ def to_hash(s):
     hash_value = hash_func.digest()
     
     return hash_value
+
