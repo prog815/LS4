@@ -12,12 +12,13 @@ function search(page_number,func) {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      mode: 'no-cors',
     };
   
     // Send the request using the fetch() function
     fetch(url + '?page_number=' + page_number, options)
-      .then(response => response.json())
+      //.then(response => response.json())
       .then(data => {
         console.log(data)
       })
