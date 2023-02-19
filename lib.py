@@ -1,4 +1,12 @@
-
+def date_plus_random_delta(d):
+    import random
+    import datetime
+    
+    delta_hours = random.randint(0, 23)
+    delta_minutes = random.randint(0, 59)
+    delta_seconds = random.randint(0, 59)
+    delta = datetime.timedelta(hours=delta_hours, minutes=delta_minutes, seconds=delta_seconds)
+    return d + delta
 
 def to_hash(s):
     import hashlib
