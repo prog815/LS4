@@ -18,6 +18,8 @@ COPY . /app
 RUN pip3 install --no-cache-dir -r requirements.txt
 
 RUN apt-get install wget
+RUN apt-get install nano
+RUN apt-get install cron
 
 RUN wget https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js
 RUN mv jquery.min.js ./static/
@@ -36,5 +38,9 @@ RUN mongod --fork --logpath /var/log/mongodb.log && \
     python3 init_base.py && \
     mongod --dbpath /data/db --shutdown
 
-CMD mongod --bind_ip_all & python3 ./app.py
+RUN touch /app/update.log
+RUN echo "*/2 * * * * cd /app; python3 scan.py > /home/update.log 2>&1" > /app/crontab
+RUN crontab /app/crontab
+
+CMD service cron start & mongod --bind_ip_all & python3 ./app.py
 

@@ -20,7 +20,7 @@ days_ago = datetime.now() - timedelta(days=3)
 filter = {"file": 0, "last_scaned": {"$lt": days_ago}}
 
 # устанавливаем ограничение на количество результатов - не более 10
-limit = 30
+limit = 60
 
 # создаем проекцию для вывода только полей _id и path
 projection = {"_id": 1, "path": 1}
