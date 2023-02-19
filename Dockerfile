@@ -39,7 +39,7 @@ RUN mongod --fork --logpath /var/log/mongodb.log && \
     mongod --dbpath /data/db --shutdown
 
 RUN touch /app/update.log
-RUN echo "*/2 * * * * cd /app; python3 scan.py > /home/update.log 2>&1" > /app/crontab
+RUN echo "* * * * * cd /app; python3 scan.py > /home/update.log 2>&1" > /app/crontab
 RUN crontab /app/crontab
 
 CMD service cron start & mongod --bind_ip_all & python3 ./app.py

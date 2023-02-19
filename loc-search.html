@@ -13,7 +13,10 @@
 <body>
     <script>
         $(window).on('load',function(){
-            $("#my_div").append(get_link()) ;
+            search(1,function(data){
+                $("#my_div").append(data) ;
+            })
+            
         })
     </script>
     привет
