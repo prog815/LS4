@@ -15,7 +15,7 @@ app = Flask(__name__, static_url_path='/static')
 @app.route('/index',methods=["GET"])
 @app.route('/search',methods=['GET'])
 def index():
-    documents = collection.find().limit(10)
+    documents = collection.find({"file":1}).limit(10)
     return render_template('index.html', documents=documents)
 
 if __name__ == '__main__':

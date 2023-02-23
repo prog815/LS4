@@ -40,10 +40,10 @@ for result in results:
     _id = result['_id']
     try:
         
-        with os.scandir("./files/" + path) as it:
+        with os.scandir("./static/files/" + path) as it:
             
             for entry in it:
-                p = entry.path[8:].replace('\\','/')
+                p = entry.path[15:].replace('\\','/')
                 
                 h = lib.to_hash(p)
                 

@@ -12,7 +12,7 @@
             <tbody>
               {% for document in documents %}
                 <tr>
-                  <td>{{ document.path }}</td>
+                  <td><a href="{{ url_for('static', filename="files/" + document.path) }}" download><b>{{ document.path }}</b></a></td>
                   <td>{{ document.file }}</td>
                   
                 </tr>
