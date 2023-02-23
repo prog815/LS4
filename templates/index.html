@@ -1,23 +1,26 @@
 <html>
     <head></head>
     <body>
-        <table>
-            <thead>
-              <tr>
-                <th>путь</th>
-                <th>файл/каталог</th>
-                
-              </tr>
-            </thead>
-            <tbody>
-              {% for document in documents %}
-                <tr>
-                  <td><a href="{{ url_for('static', filename="files/" + document.path) }}" download><b>{{ document.path }}</b></a></td>
-                  <td>{{ document.file }}</td>
-                  
-                </tr>
-              {% endfor %}
-            </tbody>
-          </table>
+
+      <!-- Форма поиска -->
+      <form method="GET" action="{{ url_for('index') }}">
+        <input type="text" name="query" placeholder="Введите поисковой запрос" value="{{ query }}">
+        <button type="submit">Найти</button>
+      </form>
+
+
+      <table>
+        
+        <tbody>
+          {% for document in documents %}
+            <tr>
+              <td><a href="{{ url_for('static', filename="files/" + document.path) }}" download><b>{{ document.path }}</b></a></td>
+              <td>{{ document.score }}</td>
+              
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
     </body>
 </html>
