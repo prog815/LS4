@@ -11,19 +11,27 @@ app = Flask(__name__, static_url_path='/static')
 # cors = CORS(app)
 # app.config['CORS_HEADERS'] = 'Content-Type'
 
+# количество элементов на странице
+per_page = 20
+
 @app.route('/',methods=["GET"])
 @app.route('/index',methods=["GET"])
 @app.route('/search',methods=['GET'])
 def index():
     query = request.args.get('query')
     
+    page = request.args.get('page', type=int, default=1)
+    skip = (page - 1) * per_page
+    
     db_query = {'file':1,'$text': {'$search': query}}
     db_projection = {'score': {'$meta': 'textScore'}}
     db_sort = [('score', {'$meta': 'textScore'})]
     
-    documents = collection.find(db_query,db_projection).sort(db_sort).limit(20)
+    total = collection.count_documents(db_query)
     
-    return render_template('index.html', documents=documents,query=query)
+    documents = collection.find(db_query,db_projection).sort(db_sort).skip(skip).limit(per_page)
+    
+    return render_template('index.html', documents=documents, query=query, page=page, per_page=per_page, total=total)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0',port=5000)
