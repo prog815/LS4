@@ -1,0 +1,23 @@
+<html>
+    <head></head>
+    <body>
+        <table>
+            <thead>
+              <tr>
+                <th>путь</th>
+                <th>файл/каталог</th>
+                
+              </tr>
+            </thead>
+            <tbody>
+              {% for document in documents %}
+                <tr>
+                  <td>{{ document.path }}</td>
+                  <td>{{ document.file }}</td>
+                  
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+    </body>
+</html>
