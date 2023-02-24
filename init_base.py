@@ -15,7 +15,14 @@ collection = db['files']
 # Создание документа
 path = ""
 
-document = {"path": path, "file":0, "hash":to_hash(path) , "last_detected": datetime.now(), "last_scaned": datetime.now() - timedelta(days=100), "last_updated": datetime.now() - timedelta(days=100) }
+document = {"path": path, 
+            "file": 0, 
+            "hash": to_hash(path), 
+            "last_detected": datetime.now(), 
+            "last_scaned": datetime.now() - timedelta(days=100), 
+            "last_updated": datetime.now() - timedelta(days=100),
+            "modification": datetime.now() - timedelta(days=100),
+            "size": 0}
 
 # Добавление документа в коллекцию
 result = collection.insert_one(document)
@@ -27,3 +34,4 @@ collection.create_index("last_updated")
 collection.create_index("last_scaned")
 collection.create_index("file")
 collection.create_index([('path', 'text')], default_language='russian')
+

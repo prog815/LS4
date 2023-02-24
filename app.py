@@ -13,6 +13,14 @@ app = Flask(__name__, static_url_path='/static')
 # количество элементов на странице
 per_page = 20
 
+@app.template_filter('enumerate')
+def enumerate_filter(seq, start=0):
+    return enumerate(seq, start=start)
+
+@app.template_filter('datetimeformat')
+def datetimeformat(value, format='%Y-%m-%d %H:%M:%S'):
+    return value.strftime(format)
+
 @app.route('/',methods=["GET"])
 @app.route('/index',methods=["GET"])
 @app.route('/search',methods=['GET'])

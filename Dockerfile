@@ -17,18 +17,11 @@ COPY . /app
 # Install the required Python packages
 RUN pip3 install --no-cache-dir -r requirements.txt
 
-RUN pip install Flask-Paginate
-
 RUN apt-get install wget
 RUN apt-get install nano
 RUN apt-get install cron
 
-RUN wget https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js
-RUN mv jquery.min.js ./static/
-# RUN pip3 install -r requirements.txt
-
 RUN export PATH=$PATH:/usr/bin/python3
-# RUN which python3
 
 # Create an administrative user and enable authentication
 EXPOSE 27017
