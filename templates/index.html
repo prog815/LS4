@@ -1,11 +1,20 @@
 <html>
-    <head></head>
+    <head>
+      <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
     <body>
 
       <!-- Форма поиска -->
-      <form method="GET" action="{{ url_for('index') }}">
-        <input type="text" name="query" placeholder="Введите поисковой запрос" value="{{ query }}">
-        <button type="submit">Найти</button>
+
+      <form method="GET" action="{{ url_for('index') }}" class="search-form">
+        <div class="search-wrapper">
+          <div class="search-input-wrapper">
+            <input type="text" name="query" class="search-input" placeholder="Поиск" value="{{ query }}">
+            <button type="submit" class="search-button">
+              <span class="material-icons">Найти</span>
+            </button>
+          </div>
+        </div>
       </form>
 
 
@@ -22,7 +31,7 @@
               </td>
               <td style="vertical-align: top;">
                 <p><a href="{{ url_for('static', filename="files/" + document.path) }}" download><b>{{ document.path }}</b></a></p>
-                <p>{{ document.modification|datetimeformat('%Y-%m-%d %H:%M:%S') }} ({{ document.size }} B)</p>
+                <p>{{ document.modification|datetimeformat('%Y-%m-%d %H:%M:%S') }} ({{ document.size | filesize }})</p>
               </td>
               
             </tr>

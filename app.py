@@ -13,6 +13,16 @@ app = Flask(__name__, static_url_path='/static')
 # количество элементов на странице
 per_page = 20
 
+@app.template_filter('filesize')
+def format_filesize(value):
+    units = ['B', 'KB', 'MB', 'GB', 'TB']
+    index = 0
+    while value >= 1024 and index < len(units) - 1:
+        value /= 1024
+        index += 1
+    return '{:.1f} {}'.format(value, units[index])
+
+
 @app.template_filter('enumerate')
 def enumerate_filter(seq, start=0):
     return enumerate(seq, start=start)
