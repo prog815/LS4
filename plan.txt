@@ -107,8 +107,8 @@
 
 Команды для Docker:
 docker build --pull --rm -f "Dockerfile" -t ls4:latest .
-docker run -d -p80:5000 --mount type=bind,source=C:\Users,target=/app/static/files,readonly --name ls4 ls4
-docker run -d -p80:5000 -p27017:27017 -v ${PWD}:/app:ro --mount type=bind,source=C:\Users,target=/app/static/files,readonly --name ls4 ls4
+docker run -d -p80:5000 -e SOURCE=C:\Users --mount type=bind,source=C:\Users,target=/app/static/files,readonly --name ls4 ls4
+docker run -d -p80:5000 -p27017:27017 -v ${PWD}:/app:ro -e SOURCE=C:\Users --mount type=bind,source=C:\Users,target=/app/static/files,readonly --name ls4 ls4
 docker container ls
 docker rm -f ls4
 docker exec -it ls4 /bin/sh

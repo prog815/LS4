@@ -25,13 +25,14 @@
         <tbody>
           
           {% for index, document in documents | enumerate %}
-            <tr>
+            <tr style="line-height: 2;">
               <td style="vertical-align: top;">
                 {{ index + 1 + (page-1)*per_page }}.
               </td>
               <td style="vertical-align: top;">
                 <p><a href="{{ url_for('static', filename="files/" + document.path) }}" download><b>{{ document.path }}</b></a></p>
-                <p>{{ document.modification|datetimeformat('%Y-%m-%d %H:%M:%S') }} ({{ document.size | filesize }})</p>
+                <p>{{ document.modification|datetimeformat('%Y-%m-%d %H:%M:%S') }} ({{ document.size | filesize }}) Каталог - {{ document.path | get_dir}}</p>
+                <br/>
               </td>
               
             </tr>

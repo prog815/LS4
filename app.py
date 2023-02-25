@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 from datetime import datetime
 from pymongo import MongoClient
 import time
+import os
 
 client = MongoClient("mongodb://localhost:27017/")
 db = client["loc-search"]
@@ -12,6 +13,23 @@ app = Flask(__name__, static_url_path='/static')
 
 # количество элементов на странице
 per_page = 20
+
+source = os.environ.get('SOURCE')  
+
+@app.template_filter('get_dir')
+def get_dir_from_path(rel_path):
+    
+    path_to_base_dir = "./static/files"
+    
+    
+    file_path = os.path.join(path_to_base_dir , rel_path )
+    dir_path = os.path.dirname(file_path)
+    
+    path_to_target_dir = dir_path
+    
+    relative_path = os.path.relpath(path_to_target_dir, path_to_base_dir)
+    
+    return os.path.join(source,relative_path)
 
 @app.template_filter('filesize')
 def format_filesize(value):
@@ -52,11 +70,22 @@ def index():
     
     elapsed_time = end_time - start_time
     
-    document_log = {'date':datetime.now(),'client_ip':request.remote_addr,'query':query, 'page':page, 'total':total, 'elapsed_time':elapsed_time}
+    document_log = {'date':datetime.now(),
+                    'client_ip':request.remote_addr,
+                    'query':query, 
+                    'page':page, 
+                    'total':total, 
+                    'elapsed_time':elapsed_time}
     
     collection_log.insert_one(document_log)
     
-    return render_template('index.html', documents=documents, query=query, page=page, per_page=per_page, total=total)
+    return render_template('index.html', 
+                           documents=documents, 
+                           query=query, 
+                           page=page, 
+                           per_page=per_page, 
+                           total=total, 
+                           source=source)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0',port=5000)
