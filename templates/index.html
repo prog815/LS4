@@ -30,8 +30,12 @@
                 {{ index + 1 + (page-1)*per_page }}.
               </td>
               <td style="vertical-align: top;">
-                <p><a href="{{ url_for('static', filename="files/" + document.path) }}" download><b>{{ document.path }}</b></a></p>
-                <p>{{ document.modification|datetimeformat('%Y-%m-%d %H:%M:%S') }} ({{ document.size | filesize }}) Каталог - {{ document.path | get_dir}}</p>
+                {% if document.size <= 10000000 %}
+                  <p><a href="{{ url_for('static', filename="files/" + document.path) }}" download><b>{{ document.path }}</b></a></p>
+                {% else %}
+                  <p><b><u>{{ document.path }}</u></b></p>
+                {% endif %}
+                <p>{{ document.modification|datetimeformat('%Y-%m-%d %H:%M:%S') }} ({{ document.size | filesize }}) Каталог - <u>{{ document.path | get_dir}}</u></p>
                 <br/>
               </td>
               
