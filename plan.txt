@@ -125,3 +125,6 @@ http://localhost/
 
 pip3 freeze > requirements.txt
 
+# --------------------------------------------------------
+# вывод лога в файл logs.csv
+docker exec ls4 python3 log.py > logs.csv

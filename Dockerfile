@@ -16,6 +16,7 @@ COPY . /app
 
 # Install the required Python packages
 RUN pip3 install --no-cache-dir -r requirements.txt
+RUN pip3 install pandas
 
 RUN apt-get install wget
 RUN apt-get install nano
