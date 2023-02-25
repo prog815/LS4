@@ -24,14 +24,19 @@ document = {"path": path,
             "modification": datetime.now() - timedelta(days=100),
             "size": 0}
 
-# Добавление документа в коллекцию
-result = collection.insert_one(document)
 
-# создание индекса
-collection.create_index("hash", unique=True)
-collection.create_index("last_detected")
-collection.create_index("last_updated")
-collection.create_index("last_scaned")
-collection.create_index("file")
-collection.create_index([('path', 'text')], default_language='russian')
+try:
+    # Добавление документа в коллекцию
+    result = collection.insert_one(document)
+    # создание индекса
+    collection.create_index("hash", unique=True)
+    collection.create_index("last_detected")
+    collection.create_index("last_updated")
+    collection.create_index("last_scaned")
+    collection.create_index("file")
+    collection.create_index([('path', 'text')], default_language='russian')
+except:
+    pass
+
+
 

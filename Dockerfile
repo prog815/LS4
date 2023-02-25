@@ -13,6 +13,7 @@ WORKDIR /app
 
 # Copy the files from the host to the container
 COPY . /app
+COPY init_db.sh /docker-entrypoint-initdb.d/
 
 # Install the required Python packages
 RUN pip3 install --no-cache-dir -r requirements.txt
@@ -27,16 +28,8 @@ RUN export PATH=$PATH:/usr/bin/python3
 # Create an administrative user and enable authentication
 EXPOSE 27017
 
-# Create a root user with a password
-RUN mongod --fork --logpath /var/log/mongodb.log && \
-    sleep 10 && \
-    echo 'use admin; db.createUser({user: "root", pwd: "password", roles: ["root"]})' | mongosh && \
-    python3 init_base.py && \
-    mongod --dbpath /data/db --shutdown
-
 RUN touch /app/update.log
 RUN echo "* * * * * cd /app; python3 scan.py > /home/update.log 2>&1" > /app/crontab
 RUN crontab /app/crontab
 
 CMD service cron start & mongod --bind_ip_all & python3 ./app.py
-

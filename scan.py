@@ -13,6 +13,31 @@ client = MongoClient("mongodb://localhost:27017/")
 db = client["loc-search"]
 collection = db["files"]
 
+# Создание первого документа
+path = ""
+
+document = {"path": path, 
+            "file": 0, 
+            "hash": lib.to_hash(path), 
+            "last_detected": datetime.now(), 
+            "last_scaned": datetime.now() - timedelta(days=100), 
+            "last_updated": datetime.now() - timedelta(days=100),
+            "modification": datetime.now() - timedelta(days=100),
+            "size": 0}
+
+try:
+    # Добавление документа в коллекцию
+    result = collection.insert_one(document)
+    # создание индекса
+    collection.create_index("hash", unique=True)
+    collection.create_index("last_detected")
+    collection.create_index("last_updated")
+    collection.create_index("last_scaned")
+    collection.create_index("file")
+    collection.create_index([('path', 'text')], default_language='russian')
+except:
+    pass
+
 # вычисляем дату 
 days_ago = datetime.now() - timedelta(days=3)
 

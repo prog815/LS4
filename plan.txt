@@ -107,12 +107,12 @@
 
 Команды для Docker:
 docker build --pull --rm -f "Dockerfile" -t ls4:latest .
-docker run -d -p80:5000 -e SOURCE=C:\Users --mount type=bind,source=C:\Users,target=/app/static/files,readonly --name ls4 ls4
-docker run -d -p80:5000 -p27017:27017 -v ${PWD}:/app:ro -e SOURCE=C:\Users --mount type=bind,source=C:\Users,target=/app/static/files,readonly --name ls4 ls4
+docker run -d -p80:5000 -e SOURCE=C:\Users -v "$(PWD)/data:/data/db:rw" --mount type=bind,source=C:\Users,target=/app/static/files,readonly --name ls4 ls4
+docker run -d -p80:5000 -p27017:27017 -v "$(PWD)/data:/data/db:rw" -v ${PWD}:/app:ro -e SOURCE=C:\Users --mount type=bind,source=C:\Users,target=/app/static/files,readonly --name ls4 ls4
 docker container ls
 docker rm -f ls4
 docker exec -it ls4 /bin/sh
-docker image ls 
+docker image ls
 docker image prune
 docker ps -s
 
